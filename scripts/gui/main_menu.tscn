@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://1w38j8mlne05"]
-
-[ext_resource type="Script" path="res://scripts/gui/main_menu.gd" id="1_wdres"]
+[gd_scene format=3 uid="uid://dg2gxmoaosiy8"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -9,7 +7,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_wdres")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -25,15 +22,15 @@ offset_bottom = 46.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GameTitleLabel" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "PolyNarchy"
 horizontal_alignment = 1
 
-[node name="SingleplayerButton" type="Button" parent="VBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Singleplayer"
 
-[node name="MultiplayerButton" type="Button" parent="VBoxContainer"]
+[node name="Button2" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Multiplayer"

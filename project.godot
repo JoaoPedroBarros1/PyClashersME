@@ -15,6 +15,14 @@ run/main_scene="res://scenes/gui/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://assets/img/icon.svg"
 
+[autoload]
+
+SceneTransition="*res://scenes/autoloads/scene_transition.tscn"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=2
+
 [display]
 
 window/stretch/mode="canvas_items"
