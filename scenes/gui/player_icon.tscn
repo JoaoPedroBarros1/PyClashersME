@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccoi5byb8n26y"]
+
+[ext_resource type="Script" path="res://scripts/gui/player_icon.gd" id="1_bvp18"]
+
+[node name="PlayerIcon" type="HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+offset_right = 69.0
+offset_bottom = 64.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_bvp18")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(1, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Player Name"

@@ -1,18 +1,11 @@
 extends Control
 
 
-func _ready() -> void:
-	$VBoxContainer/SingleplayerButton.connect("toggled", singleplayer_btn_pressed)
-	$VBoxContainer/MultiplayerButton.connect("toggled", multiplayer_btn_pressed)
-
-
-func _process(delta: float) -> void:
-	pass
-
-
-func singleplayer_btn_pressed() -> void:
+func _singleplayer_btn_pressed() -> void:
 	print("singleplayer_pressed")
+	SceneTransition.change_root_scene.call_deferred("gui/singleplayer_menu.tscn")
 
 
-func multiplayer_btn_pressed() -> void:
+func _multiplayer_btn_pressed() -> void:
 	print("multiplayer_pressed")
+	SceneTransition.change_root_scene.call_deferred("handlers/multiplayer_handler.tscn")

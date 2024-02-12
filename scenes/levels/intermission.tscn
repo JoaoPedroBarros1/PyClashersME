@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://25xi60nkjljm"]
+
+[node name="Intermission" type="Node2D"]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://temporary/test_player.tscn")
+spawn_path = NodePath("..")
