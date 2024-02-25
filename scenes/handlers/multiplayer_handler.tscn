@@ -1,14 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://bi13lfkujhhip"]
 
-[ext_resource type="Script" path="res://scripts/handlers/multiplayer_handler.gd" id="1_65l16"]
+[ext_resource type="Script" path="res://scripts/handlers/multiplayer_handler.gd" id="1_04af4"]
 [ext_resource type="PackedScene" uid="uid://dcvoft1u4quy3" path="res://scenes/gui/multiplayer/multiplayer_menu.tscn" id="2_s3s3g"]
 
 [node name="MultiplayerHandler" type="Node"]
-script = ExtResource("1_65l16")
+script = ExtResource("1_04af4")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://scenes/gui/multiplayer/game_lobby.tscn", "res://scenes/gui/multiplayer/client_menu.tscn")
+_spawnable_scenes = PackedStringArray("res://scenes/gui/multiplayer/game_lobby.tscn", "res://scenes/handlers/game_handler.tscn")
 spawn_path = NodePath("../Level")
+spawn_limit = 1
 
 [node name="Level" type="Node" parent="."]
 

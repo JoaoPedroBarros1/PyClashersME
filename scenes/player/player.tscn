@@ -1,0 +1,100 @@
+[gd_scene load_steps=10 format=3 uid="uid://bvvdup0h1ve1x"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_mu3k7"]
+[ext_resource type="Script" path="res://scripts/player/PlayerInputSync.gd" id="2_8tprx"]
+[ext_resource type="Texture2D" uid="uid://bucdkpjd3xsqv" path="res://assets/img/characters/body/green_body.png" id="3_3o6p1"]
+[ext_resource type="Texture2D" uid="uid://cryqtawckchvl" path="res://assets/img/characters/hand/green_hand.png" id="3_op6nl"]
+[ext_resource type="Script" path="res://scripts/player/HealthBar.gd" id="3_pcrv8"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_h27al"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:player")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+properties/2/path = NodePath(".:velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gx3ml"]
+properties/0/path = NodePath(".:direction")
+properties/0/spawn = false
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:mouse_pos")
+properties/1/spawn = false
+properties/1/replication_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2b61q"]
+bg_color = Color(0, 0.721569, 0.317647, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ft1mi"]
+radius = 21.0
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
+motion_mode = 1
+script = ExtResource("1_mu3k7")
+
+[node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_h27al")
+
+[node name="PlayerInputSync" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("player")]
+root_path = NodePath(".")
+replication_config = SubResource("SceneReplicationConfig_gx3ml")
+script = ExtResource("2_8tprx")
+player = NodePath("..")
+
+[node name="AbilityLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -41.5
+offset_top = -87.2
+offset_right = 41.5
+offset_bottom = -64.2
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+text = "Apertando"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 23.0
+offset_right = 20.0
+offset_bottom = 33.0
+grow_horizontal = 2
+size_flags_vertical = 8
+theme_override_styles/fill = SubResource("StyleBoxFlat_2b61q")
+step = 1.0
+show_percentage = false
+script = ExtResource("3_pcrv8")
+
+[node name="LeftHandSprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_op6nl")
+offset = Vector2(27, -15)
+
+[node name="RightHandSprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_op6nl")
+offset = Vector2(27, 15)
+
+[node name="BodySprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_3o6p1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ft1mi")
+
+[node name="WeaponHandler" type="Node2D" parent="."]
