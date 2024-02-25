@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctu23fjlh6aba"]
+
+[ext_resource type="PackedScene" uid="uid://byp1lfk1oh11p" path="res://scenes/items/weapon_handler.tscn" id="1_grwhw"]
+[ext_resource type="Texture2D" uid="uid://cvedvrk7gsyes" path="res://assets/img/items/melee/one_handed/weapon_dagger.png" id="2_kgksw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xdhy2"]
+size = Vector2(10, 38)
+
+[node name="Dagger" instance=ExtResource("1_grwhw")]
+
+[node name="Sprite2D" parent="Node2D" index="0"]
+texture = ExtResource("2_kgksw")
+
+[node name="CollisionShape2D" parent="Node2D/HitboxComponent" index="0"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_xdhy2")

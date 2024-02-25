@@ -33,5 +33,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 50
 
+[node name="GameSettings" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="HBoxContainer/GameSettings"]
+layout_mode = 2
+text = "Voltar"
+
 [node name="PlayersList" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+
+[connection signal="pressed" from="HBoxContainer/GameSettings/BackButton" to="." method="_on_back_button_pressed"]

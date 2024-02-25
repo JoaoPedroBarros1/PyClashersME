@@ -33,5 +33,10 @@ text = "Entrar em um servidor"
 layout_mode = 2
 text = "Hostear servidor"
 
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Voltar"
+
 [connection signal="pressed" from="VBoxContainer/JoinButton" to="." method="_client_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/HostButton" to="." method="_host_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
