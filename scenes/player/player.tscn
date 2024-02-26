@@ -96,5 +96,3 @@ texture = ExtResource("3_3o6p1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ft1mi")
-
-[node name="WeaponHandler" type="Node2D" parent="."]
