@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://byp1lfk1oh11p"]
 
 [ext_resource type="PackedScene" uid="uid://cpn7k4c4xrttr" path="res://scenes/components/hitbox_component.tscn" id="1_8vfgg"]
-[ext_resource type="Script" path="res://scripts/items/weapon_handler.gd" id="1_684ho"]
+[ext_resource type="Script" path="res://scripts/items/weapon_class.gd" id="1_m570f"]
 [ext_resource type="Script" path="res://scripts/items/weapon_state_machine.gd" id="2_wcasm"]
 [ext_resource type="Script" path="res://scripts/items/weapon_states/dropped.gd" id="3_scldt"]
 [ext_resource type="Script" path="res://scripts/items/weapon_states/equipped.gd" id="4_qwvrl"]
@@ -28,8 +28,8 @@ _data = {
 "stab": SubResource("Animation_b3css")
 }
 
-[node name="WeaponHandler" type="Node2D"]
-script = ExtResource("1_684ho")
+[node name="WeaponClass" type="Node2D"]
+script = ExtResource("1_m570f")
 
 [node name="WeaponStateMachine" type="Node" parent="." node_paths=PackedStringArray("hitbox_component")]
 script = ExtResource("2_wcasm")
