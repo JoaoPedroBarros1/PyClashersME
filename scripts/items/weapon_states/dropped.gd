@@ -2,9 +2,7 @@ extends StateMachineState
 
 # Called when the state machine enters this state.
 func on_enter() -> void:
-	state_machine.hitbox_component.monitoring = false
-	state_machine.hitbox_component.set_collision_layer_value(5, true)
-	state_machine.hitbox_component.set_collision_layer_value(3, false)
+	pass
 
 
 # Called every frame when this state is active.

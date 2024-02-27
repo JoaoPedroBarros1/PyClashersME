@@ -1,7 +1,8 @@
 extends Node2D
 class_name WeaponClass
 
-@export_enum("Melee", "Ranged", "Shield") var weapon_type : int = 0
+@export_enum("Melee", "Ranged", "Shield") var weapon_type : String = "Melee"
+@export var can_drop : bool = false
 
 
 @export_group("Melee")
@@ -22,3 +23,14 @@ class_name WeaponClass
 
 func _ready() -> void:
 	print(melee_animations)
+	match weapon_type:
+		"Melee":
+			pass
+			# add_to_group("Melee", true)
+		
+		"Ranged":
+			pass
+		
+		"Shield":
+			pass
+			# add_to_group("Shield", true)

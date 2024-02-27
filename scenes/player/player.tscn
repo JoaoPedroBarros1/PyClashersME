@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bvvdup0h1ve1x"]
+[gd_scene load_steps=12 format=3 uid="uid://bvvdup0h1ve1x"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_mu3k7"]
 [ext_resource type="Script" path="res://scripts/player/PlayerInputSync.gd" id="2_8tprx"]
 [ext_resource type="Texture2D" uid="uid://bucdkpjd3xsqv" path="res://assets/img/characters/body/green_body.png" id="3_3o6p1"]
 [ext_resource type="Texture2D" uid="uid://cryqtawckchvl" path="res://assets/img/characters/hand/green_hand.png" id="3_op6nl"]
 [ext_resource type="Script" path="res://scripts/player/HealthBar.gd" id="3_pcrv8"]
+[ext_resource type="PackedScene" uid="uid://db4beu51c0t5r" path="res://scenes/handlers/weapon_handler.tscn" id="6_vv4fg"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_h27al"]
 properties/0/path = NodePath(".:position")
@@ -27,6 +28,9 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath(".:mouse_pos")
 properties/1/spawn = false
 properties/1/replication_mode = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nysvx"]
+radius = 41.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2b61q"]
 bg_color = Color(0, 0.721569, 0.317647, 1)
@@ -51,6 +55,14 @@ root_path = NodePath(".")
 replication_config = SubResource("SceneReplicationConfig_gx3ml")
 script = ExtResource("2_8tprx")
 player = NodePath("..")
+
+[node name="WeaponPickupArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponPickupArea"]
+shape = SubResource("CircleShape2D_nysvx")
 
 [node name="AbilityLabel" type="Label" parent="."]
 visible = false
@@ -96,3 +108,6 @@ texture = ExtResource("3_3o6p1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ft1mi")
+
+[node name="WeaponHandler" parent="." node_paths=PackedStringArray("player_input") instance=ExtResource("6_vv4fg")]
+player_input = NodePath("../PlayerInputSync")
