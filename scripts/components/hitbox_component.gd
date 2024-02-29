@@ -8,3 +8,7 @@ func _on_area_entered(area: Area2D) -> void:
 	
 	elif area.is_in_group("Sword"):
 		print("Clashed with sword")
+
+
+func _on_body_entered(body: Node2D) -> void:
+	print("Clashed with body: ", body)

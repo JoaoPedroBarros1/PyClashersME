@@ -8,4 +8,4 @@ func _singleplayer_btn_pressed() -> void:
 
 func _multiplayer_btn_pressed() -> void:
 	print("multiplayer_pressed")
-	SceneTransition.change_root_scene("handlers/multiplayer_handler.tscn")
+	SceneTransition.change_root_scene("gui/multiplayer/multiplayer_menu.tscn")
