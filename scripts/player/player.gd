@@ -12,9 +12,9 @@ const ACCELERATION := 5
 var desired_velocity := Vector2.ZERO
 var mouse_angle : float
 
-@onready var body : Sprite2D = $BodySprite
-@onready var left_hand : Sprite2D = $LeftHandSprite
-@onready var right_hand : Sprite2D = $RightHandSprite
+@onready var body : Sprite2D = $Sprites/BodySprite
+@onready var left_hand : Sprite2D = $Sprites/LeftHandSprite
+@onready var right_hand : Sprite2D = $Sprites/RightHandSprite
 
 
 @onready var input : PlayerInput = $PlayerInputSync
@@ -26,13 +26,23 @@ var mouse_angle : float
 		$PlayerInputSync.set_multiplayer_authority(id)
 
 
-func _physics_process(delta: float) -> void:
-	if input.ability:
-		$AbilityLabel.visible = true
-		
-	else:
-		$AbilityLabel.visible = false
+var colors_list := ["green", "purple", "red", "yellow"]
+@export_enum("green", "purple", "red", "yellow") var player_color := 0 :
+	set(color):
+		player_color = color
+		var sprite_color : String = colors_list[color]
 	
+		var hand_path : String = "res://assets/img/characters/hand/"+sprite_color+"_hand.png"
+		var hands_texture : CompressedTexture2D = load(hand_path)
+		$Sprites/LeftHandSprite.texture = hands_texture
+		$Sprites/RightHandSprite.texture = hands_texture
+		
+		var body_path : String = "res://assets/img/characters/body/"+sprite_color+"_body.png"
+		var body_texture : CompressedTexture2D = load(body_path)
+		$Sprites/BodySprite.texture = body_texture
+
+
+func _physics_process(delta: float) -> void:
 	if input.direction:
 		desired_velocity = input.direction * SPEED
 	else:

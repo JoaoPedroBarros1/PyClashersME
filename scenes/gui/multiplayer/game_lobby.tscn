@@ -13,10 +13,6 @@ grow_vertical = 2
 script = ExtResource("1_qmjnu")
 player_scene = ExtResource("2_d2apx")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://scenes/gui/player_icon.tscn")
-spawn_path = NodePath("../HBoxContainer/PlayersList")
-
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_direction = 1
 layout_mode = 1
@@ -35,6 +31,8 @@ theme_override_constants/separation = 50
 
 [node name="GameSettings" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="BackButton" type="Button" parent="HBoxContainer/GameSettings"]
 layout_mode = 2

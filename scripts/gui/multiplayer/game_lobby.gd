@@ -14,9 +14,9 @@ func _ready() -> void:
 		button_label.add_child(start_button)
 		button_label.move_child(start_button, 0)
 		
-		multiplayer.peer_connected.connect(add_player)
-		multiplayer.peer_disconnected.connect(del_player)
-		add_player(1)
+		MultiplayerHandler.player_connected.connect(add_player)
+		MultiplayerHandler.player_disconnected.connect(del_player)
+		add_player(1, MultiplayerHandler.players[1])
 	
 	else:
 		var client_label := Label.new()
@@ -25,10 +25,9 @@ func _ready() -> void:
 		button_label.move_child(client_label, 0)
 
 
-func add_player(id: int) -> void:
-	print("Player added")
+func add_player(id: int, player_info: Dictionary) -> void:
+	print("Player added with id: ", id)
 	var player := player_scene.instantiate()
-	print("id:", id)
 	player.name = str(id)
 	players_list.call_deferred("add_child", player)
 
@@ -39,8 +38,9 @@ func del_player(id: int) -> void:
 
 
 func _start_game() -> void:
-	SceneTransition.change_scene(get_parent(), "handlers/game_handler.tscn")
+	MultiplayerHandler.load_game.rpc("handlers/game_handler.tscn")
 
 
 func _on_back_button_pressed() -> void:
+	MultiplayerHandler.remove_multiplayer_peer()
 	SceneTransition.change_root_scene("gui/main_menu.tscn")

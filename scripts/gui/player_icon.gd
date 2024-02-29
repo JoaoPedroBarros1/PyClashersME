@@ -1,7 +1,6 @@
 extends HBoxContainer
 
-
-@onready var label : Label = $Label
+@onready var player_name := $PlayerName
 
 
 func _enter_tree() -> void:
@@ -9,4 +8,4 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	label.text = name
+	player_name.text = MultiplayerHandler.players[name.to_int()]["name"]

@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_mu3k7"]
 [ext_resource type="Script" path="res://scripts/player/PlayerInputSync.gd" id="2_8tprx"]
-[ext_resource type="Texture2D" uid="uid://bucdkpjd3xsqv" path="res://assets/img/characters/body/green_body.png" id="3_3o6p1"]
-[ext_resource type="Texture2D" uid="uid://cryqtawckchvl" path="res://assets/img/characters/hand/green_hand.png" id="3_op6nl"]
 [ext_resource type="Script" path="res://scripts/player/HealthBar.gd" id="3_pcrv8"]
-[ext_resource type="PackedScene" uid="uid://db4beu51c0t5r" path="res://scenes/handlers/weapon_handler.tscn" id="6_vv4fg"]
+[ext_resource type="Texture2D" uid="uid://cryqtawckchvl" path="res://assets/img/characters/hand/green_hand.png" id="5_qi38w"]
+[ext_resource type="PackedScene" uid="uid://ctu23fjlh6aba" path="res://scenes/items/melee/one_handed/dagger.tscn" id="5_v24ul"]
+[ext_resource type="Texture2D" uid="uid://bucdkpjd3xsqv" path="res://assets/img/characters/body/green_body.png" id="6_ii706"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_h27al"]
 properties/0/path = NodePath(".:position")
@@ -20,6 +20,9 @@ properties/2/replication_mode = 2
 properties/3/path = NodePath(".:rotation")
 properties/3/spawn = true
 properties/3/replication_mode = 2
+properties/4/path = NodePath(".:player_color")
+properties/4/spawn = true
+properties/4/replication_mode = 0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gx3ml"]
 properties/0/path = NodePath(".:direction")
@@ -64,22 +67,6 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponPickupArea"]
 shape = SubResource("CircleShape2D_nysvx")
 
-[node name="AbilityLabel" type="Label" parent="."]
-visible = false
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -41.5
-offset_top = -87.2
-offset_right = 41.5
-offset_bottom = -64.2
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 0
-text = "Apertando"
-
 [node name="HealthBar" type="ProgressBar" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
@@ -95,19 +82,21 @@ step = 1.0
 show_percentage = false
 script = ExtResource("3_pcrv8")
 
-[node name="LeftHandSprite" type="Sprite2D" parent="."]
-texture = ExtResource("3_op6nl")
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="LeftHandSprite" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("5_qi38w")
 offset = Vector2(27, -15)
 
-[node name="RightHandSprite" type="Sprite2D" parent="."]
-texture = ExtResource("3_op6nl")
+[node name="Dagger" parent="Sprites/LeftHandSprite" instance=ExtResource("5_v24ul")]
+position = Vector2(27, -15)
+
+[node name="RightHandSprite" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("5_qi38w")
 offset = Vector2(27, 15)
 
-[node name="BodySprite" type="Sprite2D" parent="."]
-texture = ExtResource("3_3o6p1")
+[node name="BodySprite" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("6_ii706")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ft1mi")
-
-[node name="WeaponHandler" parent="." node_paths=PackedStringArray("player_input") instance=ExtResource("6_vv4fg")]
-player_input = NodePath("../PlayerInputSync")
