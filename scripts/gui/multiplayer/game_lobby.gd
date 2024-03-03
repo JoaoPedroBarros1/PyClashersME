@@ -27,8 +27,9 @@ func _ready() -> void:
 
 func add_player(id: int, player_info: Dictionary) -> void:
 	print("Player added with id: ", id)
-	var player := player_scene.instantiate()
+	var player : Player = player_scene.instantiate()
 	player.name = str(id)
+	player.player_info = player_info.duplicate(true)
 	players_list.call_deferred("add_child", player)
 
 

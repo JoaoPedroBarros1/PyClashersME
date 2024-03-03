@@ -2,19 +2,18 @@ extends CharacterBody2D
 class_name Player
 
 
-const BODY_ROTATION_SPEED := 0.1
-const HAND_ROTATION_SPEED := 0.2
-
-
+const ROTATION_SPEED := 0.1
 const SPEED := 300
 const ACCELERATION := 5
 
+var player_info : Dictionary
+
 var desired_velocity := Vector2.ZERO
-var mouse_angle : float
+var desired_angle := 0.0
+var mouse_angle := 0.0
 
 @onready var body : Sprite2D = $Sprites/BodySprite
-@onready var left_hand : Sprite2D = $Sprites/LeftHandSprite
-@onready var right_hand : Sprite2D = $Sprites/RightHandSprite
+@onready var weapon_handler : WeaponHandler = $Sprites/WeaponHandler
 
 
 @onready var input : PlayerInput = $PlayerInputSync
@@ -34,8 +33,8 @@ var colors_list := ["green", "purple", "red", "yellow"]
 	
 		var hand_path : String = "res://assets/img/characters/hand/"+sprite_color+"_hand.png"
 		var hands_texture : CompressedTexture2D = load(hand_path)
-		$Sprites/LeftHandSprite.texture = hands_texture
-		$Sprites/RightHandSprite.texture = hands_texture
+		$Sprites/WeaponHandler/WeaponPivot/LeftHandSprite.texture = hands_texture
+		$Sprites/WeaponHandler/WeaponPivot/RightHandSprite.texture = hands_texture
 		
 		var body_path : String = "res://assets/img/characters/body/"+sprite_color+"_body.png"
 		var body_texture : CompressedTexture2D = load(body_path)
@@ -51,12 +50,21 @@ func _physics_process(delta: float) -> void:
 	velocity = velocity.move_toward(desired_velocity, ACCELERATION * SPEED * delta)
 	
 	mouse_angle = (input.mouse_pos - body.global_position).angle()
-	body.global_rotation = lerp_angle(body.global_rotation, mouse_angle, BODY_ROTATION_SPEED)
+	desired_angle = lerp_angle(desired_angle, mouse_angle, ROTATION_SPEED)
 	
-	var left_hand_rotation : float = lerp_angle(left_hand.rotation, body.global_rotation, HAND_ROTATION_SPEED)
-	left_hand.rotation = left_hand_rotation
-	
-	var right_hand_rotation : float = lerp_angle(right_hand.rotation, body.global_rotation, HAND_ROTATION_SPEED)
-	right_hand.rotation = right_hand_rotation
+	body.rotation = desired_angle
+	weapon_handler.rotation = desired_angle
 	
 	move_and_slide()
+
+
+func attacked(hand: String) -> void:
+	print("Player attacked with hand ", hand)
+
+
+func dropped_weapon(hand: String) -> void:
+	print("Player dropped weapon in hand ", hand)
+
+
+func picked_weapon(hand: String) -> void:
+	print("Player picked up weapon with hand ", hand)

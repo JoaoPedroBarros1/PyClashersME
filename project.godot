@@ -34,12 +34,6 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg")
 
-[file_customization]
-
-folder_colors={
-"res://temporary/": "red"
-}
-
 [filesystem]
 
 import/blender/enabled=false

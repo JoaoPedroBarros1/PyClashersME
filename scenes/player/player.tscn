@@ -1,11 +1,17 @@
-[gd_scene load_steps=12 format=3 uid="uid://bvvdup0h1ve1x"]
+[gd_scene load_steps=16 format=3 uid="uid://bvvdup0h1ve1x"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_mu3k7"]
 [ext_resource type="Script" path="res://scripts/player/PlayerInputSync.gd" id="2_8tprx"]
+[ext_resource type="PackedScene" uid="uid://0hk0gaqj0twx" path="res://scenes/components/health_component.tscn" id="3_1tx51"]
 [ext_resource type="Script" path="res://scripts/player/HealthBar.gd" id="3_pcrv8"]
-[ext_resource type="Texture2D" uid="uid://cryqtawckchvl" path="res://assets/img/characters/hand/green_hand.png" id="5_qi38w"]
-[ext_resource type="PackedScene" uid="uid://ctu23fjlh6aba" path="res://scenes/items/melee/one_handed/dagger.tscn" id="5_v24ul"]
+[ext_resource type="PackedScene" uid="uid://cpn7k4c4xrttr" path="res://scenes/components/hitbox_component.tscn" id="3_wn4aj"]
+[ext_resource type="PackedScene" uid="uid://jdq4mrjqiyvc" path="res://scenes/items/melee/one_handed/dagger.tscn" id="5_v24ul"]
+[ext_resource type="PackedScene" uid="uid://dlmhxx37wu3ho" path="res://scenes/handlers/weapon_handler.tscn" id="6_etfka"]
 [ext_resource type="Texture2D" uid="uid://bucdkpjd3xsqv" path="res://assets/img/characters/body/green_body.png" id="6_ii706"]
+[ext_resource type="Texture2D" uid="uid://dfdtm84ecv864" path="res://assets/img/characters/hand/yellow_hand.png" id="8_b8trw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ft1mi"]
+radius = 30.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_h27al"]
 properties/0/path = NodePath(".:position")
@@ -32,6 +38,9 @@ properties/1/path = NodePath(".:mouse_pos")
 properties/1/spawn = false
 properties/1/replication_mode = 2
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_so3xg"]
+radius = 21.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_nysvx"]
 radius = 41.0
 
@@ -42,13 +51,13 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ft1mi"]
-radius = 21.0
-
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(1.5, 1.5)
 motion_mode = 1
 script = ExtResource("1_mu3k7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ft1mi")
 
 [node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_h27al")
@@ -59,6 +68,12 @@ replication_config = SubResource("SceneReplicationConfig_gx3ml")
 script = ExtResource("2_8tprx")
 player = NodePath("..")
 
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_wn4aj")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("CircleShape2D_so3xg")
+
 [node name="WeaponPickupArea" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 4
@@ -67,7 +82,9 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponPickupArea"]
 shape = SubResource("CircleShape2D_nysvx")
 
-[node name="HealthBar" type="ProgressBar" parent="."]
+[node name="HealthComponent" parent="." instance=ExtResource("3_1tx51")]
+
+[node name="HealthBar" type="ProgressBar" parent="." node_paths=PackedStringArray("health_component")]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -81,22 +98,32 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_2b61q")
 step = 1.0
 show_percentage = false
 script = ExtResource("3_pcrv8")
+health_component = NodePath("../HealthComponent")
 
 [node name="Sprites" type="Node2D" parent="."]
 
-[node name="LeftHandSprite" type="Sprite2D" parent="Sprites"]
-texture = ExtResource("5_qi38w")
-offset = Vector2(27, -15)
+[node name="WeaponHandler" parent="Sprites" node_paths=PackedStringArray("player", "input", "weapon_pickup_area", "weapon") instance=ExtResource("6_etfka")]
+player = NodePath("../..")
+input = NodePath("../../PlayerInputSync")
+weapon_pickup_area = NodePath("../../WeaponPickupArea")
+weapon = NodePath("WeaponPivot/WeaponOffset/Dagger")
 
-[node name="Dagger" parent="Sprites/LeftHandSprite" instance=ExtResource("5_v24ul")]
-position = Vector2(27, -15)
+[node name="WeaponPivot" type="Node2D" parent="Sprites/WeaponHandler"]
+rotation = 0.349066
 
-[node name="RightHandSprite" type="Sprite2D" parent="Sprites"]
-texture = ExtResource("5_qi38w")
-offset = Vector2(27, 15)
+[node name="WeaponOffset" type="Node2D" parent="Sprites/WeaponHandler/WeaponPivot"]
+position = Vector2(30, 0)
+
+[node name="RightHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset"]
+texture = ExtResource("8_b8trw")
+
+[node name="Dagger" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset" instance=ExtResource("5_v24ul")]
+
+[node name="LeftHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler"]
+show_behind_parent = true
+rotation = -0.523599
+texture = ExtResource("8_b8trw")
+offset = Vector2(30, 0)
 
 [node name="BodySprite" type="Sprite2D" parent="Sprites"]
 texture = ExtResource("6_ii706")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_ft1mi")

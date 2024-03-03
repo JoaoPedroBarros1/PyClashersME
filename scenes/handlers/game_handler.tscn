@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bscg5i1koip37"]
+[gd_scene load_steps=7 format=3 uid="uid://bscg5i1koip37"]
 
 [ext_resource type="Script" path="res://scripts/handlers/game_handler.gd" id="1_x8eom"]
 [ext_resource type="Texture2D" uid="uid://beakj7vcvub0w" path="res://assets/img/map/tilesheet.png" id="2_avkit"]
+[ext_resource type="PackedScene" uid="uid://jdq4mrjqiyvc" path="res://scenes/items/melee/one_handed/dagger.tscn" id="2_eu462"]
 [ext_resource type="Script" path="res://scripts/handlers/camera_handler.gd" id="2_ja5hw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g24re"]
@@ -426,6 +427,7 @@ sources/3 = SubResource("TileSetAtlasSource_g24re")
 [node name="GameHandler" type="Node" node_paths=PackedStringArray("camera_handler")]
 script = ExtResource("1_x8eom")
 camera_handler = NodePath("CameraHandler")
+weapons_list = Array[PackedScene]([ExtResource("2_eu462")])
 
 [node name="CameraHandler" type="Camera2D" parent="."]
 script = ExtResource("2_ja5hw")
@@ -444,10 +446,9 @@ _spawnable_scenes = PackedStringArray("res://scenes/player/player.tscn")
 spawn_path = NodePath("../Players")
 spawn_limit = 4
 
-[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("../Level")
-spawn_limit = 1
+[node name="WeaponSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Weapons")
 
 [node name="Players" type="Node" parent="."]
 
-[node name="Level" type="Node" parent="."]
+[node name="Weapons" type="Node" parent="."]

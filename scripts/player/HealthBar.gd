@@ -1,12 +1,9 @@
 extends ProgressBar
 
 
-@export var MAX_HEALTH : int = 100
-var health : int
+@export var health_component : HealthComponent
 
 
 func _ready() -> void:
-	health = MAX_HEALTH
-	
-	max_value = MAX_HEALTH
-	value = health
+	max_value = health_component.MAX_HEALTH
+	value = health_component.health

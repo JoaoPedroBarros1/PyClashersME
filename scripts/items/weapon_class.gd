@@ -1,36 +1,51 @@
-extends Node2D
+extends Area2D
 class_name WeaponClass
+
+signal flip_weapon(flipped: bool)
+
 
 @export_enum("Melee", "Ranged", "Shield") var weapon_type : String = "Melee"
 @export var can_drop : bool = true
 
 
-@export_group("Melee")
-@export_enum("One Handed", "Two Handed") var melee_type : int = 0
+var is_weapon_dropped := true
+var can_attack := false
+
+@export_group("Stances")
+
+@export_subgroup("Pre-Attack Stance", "pre_attack_")
+@export_range(-180, 180) var pre_attack_rotation : int = 50
+@export_range(-90, 90) var pre_attack_orientation : int = 0
+@export var pre_attack_transition : Tween.TransitionType = Tween.TRANS_QUAD
+@export var pre_attack_ease : Tween.EaseType = Tween.EASE_IN_OUT
+
+@export_subgroup("Attack Stance", "attack_")
+@export_range(-180, 180) var attack_rotation : int = -90
+@export_range(-90, 90) var attack_orientation : int = -90
+@export var attack_transition : Tween.TransitionType = Tween.TRANS_BACK
+@export var attack_ease : Tween.EaseType = Tween.EASE_IN_OUT
+
+
+@export_subgroup("Idle Stance", "idle_")
+@export_range(-180, 180) var idle_rotation : int = 20
+@export_range(-90, 90) var idle_orientation : int = 0
+@export var idle_transition : Tween.TransitionType = Tween.TRANS_QUAD
+@export var idle_ease : Tween.EaseType = Tween.EASE_IN_OUT
+
+
+@export_group("Melee", "melee_")
+@export_enum("Hands", "One Handed", "Two Handed") var melee_type : int = 1
 @export_range(1, 100) var melee_damage : int = 50
 @export_range(0.2, 1) var melee_weight : float = 0.5
-@export_enum("Stab", "Slash") var melee_animations : int = 0
-@export_enum("None", "Both", "Left", "Right") var slash_direction : int = 0
-
-# @export_group("Ranged")
-# @export_range(1, 100) var ranged_damage : int = 50
-# @export_range(0.2, 1) var ranged_weight : float = 0.5
-# @export var ranged_projectile : PackedScene
-
-# @export_group("Shield")
-# @export_range(0.2, 1) var shield_weight : float
 
 
-func _ready() -> void:
-	print(melee_animations)
-	match weapon_type:
-		"Melee":
-			pass
-			# add_to_group("Melee", true)
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area is HitboxComponent:
+		var hitbox : HitboxComponent = area
 		
-		"Ranged":
-			pass
+		var attack := Attack.new()
+		attack.attack_damage = melee_damage
+		attack.weapon_weight = melee_weight
+		attack.attack_position = global_position
 		
-		"Shield":
-			pass
-			# add_to_group("Shield", true)
+		hitbox.damage(attack)

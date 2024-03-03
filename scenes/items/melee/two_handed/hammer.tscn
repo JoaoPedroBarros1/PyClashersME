@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxm2hv6q0t8j8"]
+
+[ext_resource type="PackedScene" uid="uid://byp1lfk1oh11p" path="res://scenes/items/weapon_class.tscn" id="1_4ypfe"]
+[ext_resource type="Texture2D" uid="uid://b7t7athenisby" path="res://assets/img/items/melee/two_handed/weapon_hammer.png" id="2_svuwu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c78wd"]
+size = Vector2(28, 29)
+
+[node name="Hammer" instance=ExtResource("1_4ypfe")]
+position = Vector2(0, 12)
+rotation = 3.14159
+melee_type = 2
+melee_weight = 0.7
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_svuwu")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -11.5)
+shape = SubResource("RectangleShape2D_c78wd")
+
+[node name="SecondaryHandPos" parent="." index="2"]
+position = Vector2(0, 3)

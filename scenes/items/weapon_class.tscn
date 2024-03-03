@@ -1,67 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://byp1lfk1oh11p"]
+[gd_scene load_steps=2 format=3 uid="uid://byp1lfk1oh11p"]
 
-[ext_resource type="PackedScene" uid="uid://cpn7k4c4xrttr" path="res://scenes/components/hitbox_component.tscn" id="1_8vfgg"]
 [ext_resource type="Script" path="res://scripts/items/weapon_class.gd" id="1_m570f"]
-[ext_resource type="Script" path="res://scripts/items/weapon_state_machine.gd" id="2_wcasm"]
-[ext_resource type="Script" path="res://scripts/items/weapon_states/dropped.gd" id="3_scldt"]
-[ext_resource type="Script" path="res://scripts/items/weapon_states/equipped.gd" id="4_qwvrl"]
-[ext_resource type="Script" path="res://scripts/items/weapon_states/activated.gd" id="5_c5rui"]
-[ext_resource type="Script" path="res://scripts/items/weapon_states/cooldown.gd" id="6_5g4kn"]
 
-[sub_resource type="Animation" id="Animation_nhcqy"]
-resource_name = "block"
-
-[sub_resource type="Animation" id="Animation_hvns5"]
-resource_name = "inverted_attack"
-
-[sub_resource type="Animation" id="Animation_krfek"]
-resource_name = "attack"
-
-[sub_resource type="Animation" id="Animation_b3css"]
-resource_name = "stab"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_32u23"]
-_data = {
-"block": SubResource("Animation_nhcqy"),
-"inverted_slash": SubResource("Animation_hvns5"),
-"slash": SubResource("Animation_krfek"),
-"stab": SubResource("Animation_b3css")
-}
-
-[node name="WeaponClass" type="Node2D"]
+[node name="WeaponClass" type="Area2D"]
+show_behind_parent = true
+collision_layer = 4
 script = ExtResource("1_m570f")
 
-[node name="WeaponStateMachine" type="Node" parent="." node_paths=PackedStringArray("hitbox_component")]
-script = ExtResource("2_wcasm")
-hitbox_component = NodePath("../Node2D/HitboxComponent")
+[node name="Sprite2D" type="Sprite2D" parent="."]
 
-[node name="Dropped" type="Node" parent="WeaponStateMachine"]
-script = ExtResource("3_scldt")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
-[node name="Equipped" type="Node" parent="WeaponStateMachine"]
-script = ExtResource("4_qwvrl")
-
-[node name="Activated" type="Node" parent="WeaponStateMachine"]
-script = ExtResource("5_c5rui")
-
-[node name="Cooldown" type="Node" parent="WeaponStateMachine"]
-script = ExtResource("6_5g4kn")
-
-[node name="Node2D" type="Node2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
-
-[node name="HitboxComponent" parent="Node2D" instance=ExtResource("1_8vfgg")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/HitboxComponent"]
-
-[node name="HandPosition2" type="Marker2D" parent="."]
+[node name="SecondaryHandPos" type="Marker2D" parent="."]
 gizmo_extents = 5.0
-
-[node name="HandPosition1" type="Marker2D" parent="."]
-gizmo_extents = 5.0
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_32u23")
-}
