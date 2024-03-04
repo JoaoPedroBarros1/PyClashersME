@@ -13,3 +13,6 @@ script = ExtResource("1_m570f")
 
 [node name="SecondaryHandPos" type="Marker2D" parent="."]
 gizmo_extents = 5.0
+
+[node name="PrimaryHandPos" type="Marker2D" parent="."]
+gizmo_extents = 5.0

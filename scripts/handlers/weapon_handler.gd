@@ -10,8 +10,6 @@ var attack_ready : bool = true
 @onready var weapon_pivot : Node2D = $WeaponPivot
 @onready var weapon_offset : Node2D = $WeaponPivot/WeaponOffset
 @export var weapon : WeaponClass
-# @onready var right_hand_sprite : Sprite2D = $WeaponPivot/RightHandSprite
-# @onready var left_hand_sprite : Sprite2D = $WeaponPivot/LeftHandSprite
 
 
 func _ready() -> void:

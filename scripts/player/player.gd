@@ -33,8 +33,8 @@ var colors_list := ["green", "purple", "red", "yellow"]
 	
 		var hand_path : String = "res://assets/img/characters/hand/"+sprite_color+"_hand.png"
 		var hands_texture : CompressedTexture2D = load(hand_path)
-		$Sprites/WeaponHandler/WeaponPivot/LeftHandSprite.texture = hands_texture
-		$Sprites/WeaponHandler/WeaponPivot/RightHandSprite.texture = hands_texture
+		$Sprites/WeaponHandler/LeftHandSprite.texture = hands_texture
+		$Sprites/WeaponHandler/WeaponPivot/WeaponOffset/RightHandSprite.texture = hands_texture
 		
 		var body_path : String = "res://assets/img/characters/body/"+sprite_color+"_body.png"
 		var body_texture : CompressedTexture2D = load(body_path)
