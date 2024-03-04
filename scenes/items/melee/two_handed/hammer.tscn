@@ -7,8 +7,10 @@
 size = Vector2(28, 29)
 
 [node name="Hammer" instance=ExtResource("1_4ypfe")]
-position = Vector2(0, 12)
+position = Vector2(0, 3)
 rotation = 3.14159
+attack_offset = 48
+idle_offset = 33
 melee_type = 2
 melee_weight = 0.7
 
@@ -20,7 +22,4 @@ position = Vector2(0, -11.5)
 shape = SubResource("RectangleShape2D_c78wd")
 
 [node name="SecondaryHandPos" parent="." index="2"]
-position = Vector2(-3.04222e-05, 12)
-
-[node name="PrimaryHandPos" parent="." index="3"]
-position = Vector2(-7.60554e-06, 3)
+position = Vector2(0, 12)

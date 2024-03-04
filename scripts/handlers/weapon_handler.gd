@@ -30,22 +30,19 @@ func attack(_hand: String) -> void:
 	
 	var tween : Tween = create_tween()
 	
-	# Pre-Attack
-	tween_action(tween, weapon.pre_attack_rotation, weapon.pre_attack_orientation, weapon.pre_attack_transition, weapon.pre_attack_ease)
-	
-	# Attack
-	tween_action(tween, weapon.attack_rotation, weapon.attack_orientation, weapon.attack_transition, weapon.attack_ease)
-	
-	# Idle
-	tween_action(tween, weapon.idle_rotation, weapon.idle_orientation, weapon.idle_transition, weapon.idle_ease)
+	tween_action(tween, weapon.pre_attack_rotation, weapon.pre_attack_orientation, weapon.pre_attack_offset, weapon.pre_attack_transition, weapon.pre_attack_ease)
+	tween.tween_callback(func() -> void: weapon.monitoring = true)
+	tween_action(tween, weapon.attack_rotation, weapon.attack_orientation, weapon.attack_offset, weapon.attack_transition, weapon.attack_ease)
+	tween.tween_callback(func() -> void: weapon.monitoring = false)
+	tween_action(tween, weapon.idle_rotation, weapon.idle_orientation, weapon.idle_offset, weapon.idle_transition, weapon.idle_ease)
 	
 	tween.tween_callback(func() -> void: attack_ready = true)
 
 
-func tween_action(tween : Tween, weapon_rotation : int, weapon_orientation : int, weapon_transition : int, weapon_ease : int) -> void:
+func tween_action(tween: Tween, weapon_rotation: int, weapon_orientation: int, weapon_offset_pos: int, weapon_transition : int, weapon_ease : int) -> void:
 	tween.tween_property(weapon_pivot, "rotation_degrees", weapon_rotation, weapon.melee_weight).set_trans(weapon_transition).set_ease(weapon_ease)
 	tween.parallel().tween_property(weapon_offset, "rotation_degrees", weapon_orientation, weapon.melee_weight).set_trans(weapon_transition).set_ease(weapon_ease)
-
+	tween.parallel().tween_property(weapon_offset, "position", Vector2(weapon_offset_pos, 0), weapon.melee_weight).set_trans(weapon_transition).set_ease(weapon_ease)
 
 func drop_weapon(_hand: String) -> void:
 	if not attack_ready:

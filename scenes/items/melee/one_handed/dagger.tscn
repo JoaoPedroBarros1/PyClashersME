@@ -18,6 +18,3 @@ texture = ExtResource("2_kgksw")
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0.499998, -2.5)
 shape = SubResource("RectangleShape2D_4a5x0")
-
-[node name="PrimaryHandPos" parent="." index="3"]
-position = Vector2(-3.29574e-05, 13)

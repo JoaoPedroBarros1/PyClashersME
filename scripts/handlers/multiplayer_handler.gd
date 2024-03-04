@@ -1,7 +1,7 @@
 extends Node
 
 
-signal player_connected(peer_id: int, player_info: Dictionary)
+signal player_connected(peer_id: int)
 signal player_disconnected(peer_id: int)
 signal server_disconnected
 
@@ -34,6 +34,8 @@ func join_server(address := "") -> void:
 	if error:
 		printerr(error)
 		return
+	
+	peer.get_peer(1).set_timeout(0, 0, 3000)
 	
 	multiplayer.multiplayer_peer = peer
 	SceneTransition.change_root_scene("gui/multiplayer/game_lobby.tscn")
@@ -78,6 +80,7 @@ func _on_connected_ok() -> void:
 
 func _on_connected_fail() -> void:
 	multiplayer.multiplayer_peer = null
+	SceneTransition.change_root_scene("gui/main_menu.tscn")
 
 
 func _on_server_disconnected() -> void:
@@ -95,7 +98,7 @@ func _on_server_disconnected() -> void:
 func _register_player(new_player_info: Dictionary) -> void:
 	var new_player_id : int = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
-	player_connected.emit(new_player_id, new_player_info)
+	player_connected.emit(new_player_id)
 
 
 @rpc("call_local", "reliable")

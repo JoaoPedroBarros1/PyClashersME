@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://0hk0gaqj0twx" path="res://scenes/components/health_component.tscn" id="3_1tx51"]
 [ext_resource type="Script" path="res://scripts/player/HealthBar.gd" id="3_pcrv8"]
 [ext_resource type="PackedScene" uid="uid://cpn7k4c4xrttr" path="res://scenes/components/hitbox_component.tscn" id="3_wn4aj"]
-[ext_resource type="PackedScene" uid="uid://jdq4mrjqiyvc" path="res://scenes/items/melee/one_handed/dagger.tscn" id="5_v24ul"]
 [ext_resource type="PackedScene" uid="uid://dlmhxx37wu3ho" path="res://scenes/handlers/weapon_handler.tscn" id="6_etfka"]
 [ext_resource type="Texture2D" uid="uid://bucdkpjd3xsqv" path="res://assets/img/characters/body/green_body.png" id="6_ii706"]
 [ext_resource type="Texture2D" uid="uid://dfdtm84ecv864" path="res://assets/img/characters/hand/yellow_hand.png" id="8_b8trw"]
+[ext_resource type="PackedScene" uid="uid://cxm2hv6q0t8j8" path="res://scenes/items/melee/two_handed/hammer.tscn" id="8_t7ajb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ft1mi"]
 radius = 30.0
@@ -29,6 +29,15 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath(".:player_color")
 properties/4/spawn = true
 properties/4/replication_mode = 0
+properties/5/path = NodePath("Sprites/WeaponHandler/WeaponPivot:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+properties/6/path = NodePath("Sprites/WeaponHandler/WeaponPivot/WeaponOffset:rotation")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+properties/7/path = NodePath("Sprites/WeaponHandler/WeaponPivot/WeaponOffset:position")
+properties/7/spawn = true
+properties/7/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gx3ml"]
 properties/0/path = NodePath(".:direction")
@@ -106,7 +115,7 @@ health_component = NodePath("../HealthComponent")
 player = NodePath("../..")
 input = NodePath("../../PlayerInputSync")
 weapon_pickup_area = NodePath("../../WeaponPickupArea")
-weapon = NodePath("WeaponPivot/WeaponOffset/Dagger")
+weapon = NodePath("WeaponPivot/WeaponOffset/Hammer")
 
 [node name="WeaponPivot" type="Node2D" parent="Sprites/WeaponHandler"]
 rotation = 0.349066
@@ -117,10 +126,10 @@ position = Vector2(30, 0)
 [node name="RightHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset"]
 texture = ExtResource("8_b8trw")
 
-[node name="Dagger" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset" instance=ExtResource("5_v24ul")]
+[node name="Hammer" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset" instance=ExtResource("8_t7ajb")]
+collision_mask = 1
 
 [node name="LeftHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler"]
-show_behind_parent = true
 rotation = -0.523599
 texture = ExtResource("8_b8trw")
 offset = Vector2(30, 0)

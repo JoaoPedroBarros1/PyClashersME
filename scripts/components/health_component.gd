@@ -12,6 +12,7 @@ func _ready() -> void:
 
 
 func damage(attack: Attack) -> void:
+	print("Damaged by ", attack.attack_damage)
 	health -= attack.attack_damage
 	
 	if health <= 0:

@@ -16,7 +16,7 @@ func _ready() -> void:
 		
 		MultiplayerHandler.player_connected.connect(add_player)
 		MultiplayerHandler.player_disconnected.connect(del_player)
-		add_player(1, MultiplayerHandler.players[1])
+		add_player(1)
 	
 	else:
 		var client_label := Label.new()
@@ -25,7 +25,7 @@ func _ready() -> void:
 		button_label.move_child(client_label, 0)
 
 
-func add_player(id: int, player_info: Dictionary) -> void:
+func add_player(id: int) -> void:
 	print("Player added with id: ", id)
 	var player : HBoxContainer = player_scene.instantiate()
 	player.name = str(id)
@@ -38,6 +38,9 @@ func del_player(id: int) -> void:
 
 
 func _start_game() -> void:
+	multiplayer.multiplayer_peer.set_refuse_new_connections(true)
+	# multiplayer.multiplayer_peer.refuse_new_connections = true
+	
 	MultiplayerHandler.load_game.rpc("handlers/game_handler.tscn")
 
 
