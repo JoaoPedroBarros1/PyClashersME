@@ -449,6 +449,6 @@ spawn_limit = 4
 [node name="WeaponSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Weapons")
 
-[node name="Players" type="Node" parent="."]
-
 [node name="Weapons" type="Node" parent="."]
+
+[node name="Players" type="Node" parent="."]

@@ -3,7 +3,8 @@ class_name WeaponClass
 
 
 @export var can_drop : bool = true
-
+@onready var weapon_origin : Node = get_parent()
+var weapon_holder : Player = null
 
 var is_weapon_dropped := true
 var can_attack := false
@@ -40,12 +41,17 @@ var can_attack := false
 
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if (area is HitboxComponent) and (owner.name != area.get_parent().name):
-		var hitbox : HitboxComponent = area
-		
-		var attack := Attack.new()
-		attack.attack_damage = melee_damage
-		attack.weapon_weight = melee_weight
-		attack.attack_position = $CollisionShape2D.global_position
-		
-		hitbox.damage(attack)
+	if not area is HitboxComponent:
+		return
+	var shape_owner := shape_owner_get_owner(get_shape_owners()[0])
+	if shape_owner != area.get_parent():
+		return
+	
+	var hitbox : HitboxComponent = area
+	
+	var attack := Attack.new()
+	attack.attack_damage = melee_damage
+	attack.weapon_weight = melee_weight
+	attack.attack_position = $CollisionShape2D.global_position
+	
+	hitbox.damage(attack)

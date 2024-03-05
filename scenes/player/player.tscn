@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bvvdup0h1ve1x"]
+[gd_scene load_steps=15 format=3 uid="uid://bvvdup0h1ve1x"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_mu3k7"]
 [ext_resource type="Script" path="res://scripts/player/PlayerInputSync.gd" id="2_8tprx"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://dlmhxx37wu3ho" path="res://scenes/handlers/weapon_handler.tscn" id="6_etfka"]
 [ext_resource type="Texture2D" uid="uid://bucdkpjd3xsqv" path="res://assets/img/characters/body/green_body.png" id="6_ii706"]
 [ext_resource type="Texture2D" uid="uid://dfdtm84ecv864" path="res://assets/img/characters/hand/yellow_hand.png" id="8_b8trw"]
-[ext_resource type="PackedScene" uid="uid://cxm2hv6q0t8j8" path="res://scenes/items/melee/two_handed/hammer.tscn" id="8_t7ajb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ft1mi"]
 radius = 30.0
@@ -61,7 +60,6 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [node name="Player" type="CharacterBody2D"]
-scale = Vector2(1.5, 1.5)
 motion_mode = 1
 script = ExtResource("1_mu3k7")
 
@@ -86,14 +84,13 @@ shape = SubResource("CircleShape2D_so3xg")
 
 [node name="WeaponPickupArea" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponPickupArea"]
 shape = SubResource("CircleShape2D_nysvx")
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_1tx51")]
-MAX_HEALTH = 100.0
 
 [node name="HealthBar" type="ProgressBar" parent="." node_paths=PackedStringArray("health_component")]
 anchors_preset = 5
@@ -113,11 +110,10 @@ health_component = NodePath("../HealthComponent")
 
 [node name="Sprites" type="Node2D" parent="."]
 
-[node name="WeaponHandler" parent="Sprites" node_paths=PackedStringArray("player", "input", "weapon_pickup_area", "weapon") instance=ExtResource("6_etfka")]
+[node name="WeaponHandler" parent="Sprites" node_paths=PackedStringArray("player", "input", "weapon_pickup_area") instance=ExtResource("6_etfka")]
 player = NodePath("../..")
 input = NodePath("../../PlayerInputSync")
 weapon_pickup_area = NodePath("../../WeaponPickupArea")
-weapon = NodePath("WeaponPivot/WeaponOffset/Hammer")
 
 [node name="WeaponPivot" type="Node2D" parent="Sprites/WeaponHandler"]
 rotation = 0.349066
@@ -127,9 +123,6 @@ position = Vector2(30, 0)
 
 [node name="RightHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset"]
 texture = ExtResource("8_b8trw")
-
-[node name="Hammer" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset" instance=ExtResource("8_t7ajb")]
-collision_layer = 4
 
 [node name="LeftHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler"]
 rotation = -0.523599

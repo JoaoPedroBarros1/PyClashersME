@@ -40,29 +40,41 @@ func tween_action(tween: Tween, weapon_rotation: int, weapon_orientation: int, w
 
 
 func drop_weapon() -> void:
+	print(weapon.weapon_origin)
+	if not weapon:
+		return
+	
 	if not attack_ready:
 		return
 	
-	if weapon.can_drop:
-		print("Dropped weapon")
-	else:
+	if not weapon.can_drop:
 		print("Weapon not droppable")
+		return
+	
+	print("Dropped weapon")
+	weapon.reparent(weapon.weapon_origin, false)
+	weapon = null
 
 
 func pick_weapon() -> void:
+	if weapon:
+		print("Already has weapon")
+		return
+	
 	if not attack_ready:
 		return
 	
 	var overlapping_areas : Array[Area2D] = weapon_pickup_area.get_overlapping_areas()
-	overlapping_areas.sort_custom(get_closest_weapon_sort)
 	
-	if weapon:
-		print("Already used")
+	if overlapping_areas.is_empty():
 		return
 	
+	overlapping_areas.sort_custom(get_closest_weapon_sort)
+	
 	print("Picked weapon")
-	weapon_offset = weapon.get_parent()
-	weapon_pivot = weapon_offset.get_parent()
+	var new_weapon : WeaponClass = overlapping_areas[0]
+	weapon = new_weapon
+	new_weapon.reparent(weapon_offset)
 
 
 func get_closest_weapon_sort(a: Area2D, b: Area2D) -> bool:
