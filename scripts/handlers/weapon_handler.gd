@@ -9,7 +9,7 @@ var attack_ready : bool = true
 
 @onready var weapon_pivot : Node2D = $WeaponPivot
 @onready var weapon_offset : Node2D = $WeaponPivot/WeaponOffset
-@export var weapon : WeaponClass
+@export var weapon : WeaponClass = null
 
 
 func _ready() -> void:
@@ -64,6 +64,7 @@ func pick_weapon(_hand: String) -> void:
 	if weapon:
 		print("Already used")
 		return
+	
 	print("Picked weapon")
 	weapon_offset = weapon.get_parent()
 	weapon_pivot = weapon_offset.get_parent()

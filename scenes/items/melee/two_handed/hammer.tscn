@@ -23,3 +23,6 @@ shape = SubResource("RectangleShape2D_c78wd")
 
 [node name="SecondaryHandPos" parent="." index="2"]
 position = Vector2(0, 12)
+
+[node name="TrailPosition" parent="." index="3"]
+position = Vector2(4.05629e-05, -16)

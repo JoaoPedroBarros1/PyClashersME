@@ -1,10 +1,7 @@
 extends Area2D
 class_name WeaponClass
 
-signal flip_weapon(flipped: bool)
 
-
-@export_enum("Melee", "Ranged", "Shield") var weapon_type : String = "Melee"
 @export var can_drop : bool = true
 
 
@@ -43,13 +40,12 @@ var can_attack := false
 
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	print("Hitbox collided ", area)
-	if area is HitboxComponent:
+	if (area is HitboxComponent) and (owner.name != area.get_parent().name):
 		var hitbox : HitboxComponent = area
 		
 		var attack := Attack.new()
 		attack.attack_damage = melee_damage
 		attack.weapon_weight = melee_weight
-		attack.attack_position = global_position
+		attack.attack_position = $CollisionShape2D.global_position
 		
 		hitbox.damage(attack)

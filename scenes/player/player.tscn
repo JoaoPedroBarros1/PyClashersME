@@ -127,7 +127,7 @@ position = Vector2(30, 0)
 texture = ExtResource("8_b8trw")
 
 [node name="Hammer" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset" instance=ExtResource("8_t7ajb")]
-collision_mask = 1
+collision_layer = 4
 
 [node name="LeftHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler"]
 rotation = -0.523599

@@ -15,9 +15,6 @@ func _ready() -> void:
 	var is_authority : bool = get_multiplayer_authority() == multiplayer.get_unique_id()
 	set_process(is_authority)
 	set_physics_process(is_authority)
-	
-	if not is_authority:
-		player.add_to_group("EnemyPlayer")
 
 
 func _process(_delta: float) -> void:

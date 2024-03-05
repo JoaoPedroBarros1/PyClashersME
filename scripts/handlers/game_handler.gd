@@ -41,6 +41,10 @@ func _ready() -> void:
 	camera_handler.target = players.get_node("1")
 
 
+func start_game() -> void:
+	pass
+
+
 func add_player(id: int, index: int) -> void:
 	var character : CharacterBody2D = preload("res://scenes/player/player.tscn").instantiate()
 	character.player = id

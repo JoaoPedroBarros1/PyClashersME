@@ -41,6 +41,10 @@ var colors_list := ["green", "purple", "red", "yellow"]
 		$Sprites/BodySprite.texture = body_texture
 
 
+func _ready() -> void:
+	pass
+
+
 func _physics_process(delta: float) -> void:
 	if input.direction:
 		desired_velocity = input.direction * SPEED
@@ -56,15 +60,3 @@ func _physics_process(delta: float) -> void:
 	weapon_handler.rotation = desired_angle
 	
 	move_and_slide()
-
-
-func attacked(hand: String) -> void:
-	print("Player attacked with hand ", hand)
-
-
-func dropped_weapon(hand: String) -> void:
-	print("Player dropped weapon in hand ", hand)
-
-
-func picked_weapon(hand: String) -> void:
-	print("Player picked up weapon with hand ", hand)

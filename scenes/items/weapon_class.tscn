@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://byp1lfk1oh11p"]
+[gd_scene load_steps=4 format=3 uid="uid://byp1lfk1oh11p"]
 
 [ext_resource type="Script" path="res://scripts/items/weapon_class.gd" id="1_m570f"]
+[ext_resource type="Script" path="res://addons/trail_2d/trail_2d.gd" id="2_vhw4q"]
+
+[sub_resource type="Curve" id="Curve_blil7"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.113861, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [node name="WeaponClass" type="Area2D"]
 show_behind_parent = true
-collision_layer = 4
-collision_mask = 2
+collision_layer = 2
 monitoring = false
 script = ExtResource("1_m570f")
 
@@ -15,5 +19,13 @@ script = ExtResource("1_m570f")
 
 [node name="SecondaryHandPos" type="Marker2D" parent="."]
 gizmo_extents = 5.0
+
+[node name="TrailPosition" type="Marker2D" parent="."]
+
+[node name="Trail2D" type="Line2D" parent="TrailPosition" node_paths=PackedStringArray("weapon")]
+width_curve = SubResource("Curve_blil7")
+default_color = Color(0, 1, 0, 1)
+script = ExtResource("2_vhw4q")
+weapon = NodePath("../..")
 
 [connection signal="area_entered" from="." to="." method="_on_hitbox_area_entered"]
