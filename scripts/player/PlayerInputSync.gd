@@ -1,11 +1,10 @@
 extends MultiplayerSynchronizer
 class_name PlayerInput
 
-signal drop_weapon(hand: String)
-signal pickup_weapon(hand: String)
-signal attacked(hand: String)
 
+enum PLAYER_ACTIONS {ATTACK, DROP, PICKUP}
 @export var player : CharacterBody2D
+@export var weapon_handler : WeaponHandler
 
 @export var direction := Vector2.ZERO
 @export var mouse_pos := Vector2.ZERO
@@ -20,11 +19,16 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	direction = Input.get_vector("left", "right", "up", "down")
 	
-	if Input.is_action_just_pressed("left_click"):
-		handle_mouse_input.rpc("left")
+	if Input.is_action_just_pressed("click"):
+		var player_input : PLAYER_ACTIONS = PLAYER_ACTIONS.ATTACK
+		
+		if Input.is_action_pressed("drop"):
+			player_input = PLAYER_ACTIONS.DROP
 	
-	if Input.is_action_just_pressed("right_click"):
-		handle_mouse_input.rpc("right")
+		elif Input.is_action_pressed("pickup"):
+			player_input = PLAYER_ACTIONS.PICKUP
+		
+		handle_mouse_input.rpc(player_input)
 
 
 func _physics_process(_delta: float) -> void:
@@ -32,12 +36,13 @@ func _physics_process(_delta: float) -> void:
 
 
 @rpc("call_local", "reliable")
-func handle_mouse_input(mouse_pressed : String) -> void:
-	if Input.is_action_pressed("drop"):
-		drop_weapon.emit(mouse_pressed)
-	
-	elif Input.is_action_pressed("pickup"):
-		pickup_weapon.emit(mouse_pressed)
-	
-	else:
-		attacked.emit(mouse_pressed)
+func handle_mouse_input(player_input : PLAYER_ACTIONS) -> void:
+	match player_input:
+		PLAYER_ACTIONS.DROP:
+			weapon_handler.drop_weapon()
+		
+		PLAYER_ACTIONS.PICKUP:
+			weapon_handler.pick_weapon()
+		
+		_:
+			weapon_handler.attack()

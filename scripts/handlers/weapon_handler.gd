@@ -12,13 +12,7 @@ var attack_ready : bool = true
 @export var weapon : WeaponClass = null
 
 
-func _ready() -> void:
-	input.attacked.connect(attack)
-	input.drop_weapon.connect(drop_weapon)
-	input.pickup_weapon.connect(pick_weapon)
-
-
-func attack(_hand: String) -> void:	
+func attack() -> void:	
 	if not weapon:
 		print("No weapon")
 		return
@@ -44,7 +38,8 @@ func tween_action(tween: Tween, weapon_rotation: int, weapon_orientation: int, w
 	tween.parallel().tween_property(weapon_offset, "rotation_degrees", weapon_orientation, weapon.melee_weight).set_trans(weapon_transition).set_ease(weapon_ease)
 	tween.parallel().tween_property(weapon_offset, "position", Vector2(weapon_offset_pos, 0), weapon.melee_weight).set_trans(weapon_transition).set_ease(weapon_ease)
 
-func drop_weapon(_hand: String) -> void:
+
+func drop_weapon() -> void:
 	if not attack_ready:
 		return
 	
@@ -54,7 +49,7 @@ func drop_weapon(_hand: String) -> void:
 		print("Weapon not droppable")
 
 
-func pick_weapon(_hand: String) -> void:
+func pick_weapon() -> void:
 	if not attack_ready:
 		return
 	

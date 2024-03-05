@@ -41,10 +41,6 @@ var colors_list := ["green", "purple", "red", "yellow"]
 		$Sprites/BodySprite.texture = body_texture
 
 
-func _ready() -> void:
-	pass
-
-
 func _physics_process(delta: float) -> void:
 	if input.direction:
 		desired_velocity = input.direction * SPEED

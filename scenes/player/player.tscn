@@ -71,11 +71,12 @@ shape = SubResource("CircleShape2D_ft1mi")
 [node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_h27al")
 
-[node name="PlayerInputSync" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("player")]
+[node name="PlayerInputSync" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("player", "weapon_handler")]
 root_path = NodePath(".")
 replication_config = SubResource("SceneReplicationConfig_gx3ml")
 script = ExtResource("2_8tprx")
 player = NodePath("..")
+weapon_handler = NodePath("../Sprites/WeaponHandler")
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_wn4aj")]
 health_component = NodePath("../HealthComponent")
@@ -92,6 +93,7 @@ monitorable = false
 shape = SubResource("CircleShape2D_nysvx")
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_1tx51")]
+MAX_HEALTH = 100.0
 
 [node name="HealthBar" type="ProgressBar" parent="." node_paths=PackedStringArray("health_component")]
 anchors_preset = 5
