@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cj2ty0s7gim0c"]
+
+[ext_resource type="PackedScene" uid="uid://byp1lfk1oh11p" path="res://scenes/items/weapon_class.tscn" id="1_a740h"]
+[ext_resource type="Texture2D" uid="uid://bpsju05x630r3" path="res://assets/img/items/melee/two_handed/weapon_longsword.png" id="2_koov2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_od8gh"]
+size = Vector2(18, 44)
+
+[node name="Longsword" instance=ExtResource("1_a740h")]
+double_blade = true
+pre_attack_rotation = 60
+pre_attack_orientation = 20
+melee_damage = 55
+melee_weight = 0.6
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_koov2")
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_od8gh")
+
+[node name="PrimaryHandPos" parent="." index="4"]
+position = Vector2(0, 21)
+rotation = 3.14159

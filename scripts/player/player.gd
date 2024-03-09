@@ -3,10 +3,11 @@ class_name Player
 
 
 const ROTATION_SPEED := 0.1
-const SPEED := 300
+const SPEED := 225
 const ACCELERATION := 5
 
 var player_info : Dictionary
+var is_alive : bool = true
 
 var desired_velocity := Vector2.ZERO
 var desired_angle := 0.0

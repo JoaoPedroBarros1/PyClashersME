@@ -1,7 +1,9 @@
 extends Node2D
 class_name WeaponHandler
 
-var attack_ready : bool = true
+# enum PLAYER_ACTIONS {IDLE, ATTACK, DROP, PICKUP}
+
+var ready_to_act : bool = true
 
 @export var player : Player
 @export var input : PlayerInput
@@ -9,7 +11,33 @@ var attack_ready : bool = true
 
 @onready var weapon_pivot : Node2D = $WeaponPivot
 @onready var weapon_offset : Node2D = $WeaponPivot/WeaponOffset
-@export var weapon : WeaponClass = null
+@onready var weapon_instance : Node2D = $WeaponPivot/WeaponOffset/WeaponInstance
+var weapon : WeaponClass = null
+
+
+var tween : Tween
+
+
+func _ready() -> void:
+	var is_authority : bool = get_multiplayer_authority() == multiplayer.get_unique_id()
+	set_physics_process(is_authority)
+
+
+func _physics_process(_delta: float) -> void:
+	if not player.is_alive:
+		return
+	
+	match input.player_action:
+			input.PLAYER_ACTIONS.ATTACK:
+				attack()
+			
+			input.PLAYER_ACTIONS.DROP:
+				drop_weapon()
+			
+			input.PLAYER_ACTIONS.PICKUP:
+				pick_weapon()
+	
+	input.player_action = input.PLAYER_ACTIONS.IDLE
 
 
 func attack() -> void:	
@@ -17,34 +45,36 @@ func attack() -> void:
 		print("No weapon")
 		return
 	
-	if not attack_ready:
+	if not ready_to_act:
 		print("Attack ain't ready")
 		return
-	attack_ready = false
+	ready_to_act = false
 	
-	var tween : Tween = create_tween()
+	tween = create_tween()
 	
-	tween_action(tween, weapon.pre_attack_rotation, weapon.pre_attack_orientation, weapon.pre_attack_offset, weapon.pre_attack_transition, weapon.pre_attack_ease)
+	tween_action(weapon.pre_attack_rotation, weapon.pre_attack_orientation, weapon.pre_attack_offset, weapon.pre_attack_transition, weapon.pre_attack_ease)
 	tween.tween_callback(func() -> void: weapon.monitoring = true)
-	tween_action(tween, weapon.attack_rotation, weapon.attack_orientation, weapon.attack_offset, weapon.attack_transition, weapon.attack_ease)
-	tween.tween_callback(func() -> void: weapon.monitoring = false)
-	tween_action(tween, weapon.idle_rotation, weapon.idle_orientation, weapon.idle_offset, weapon.idle_transition, weapon.idle_ease)
+	tween_action(weapon.attack_rotation, weapon.attack_orientation, weapon.attack_offset, weapon.attack_transition, weapon.attack_ease)
+	if not weapon.double_blade:
+		tween.tween_callback(func() -> void: weapon.monitoring = false)
+	tween_action(weapon.idle_rotation, weapon.idle_orientation, weapon.idle_offset, weapon.idle_transition, weapon.idle_ease)
+	if weapon.double_blade:
+		tween.tween_callback(func() -> void: weapon.monitoring = false)
 	
-	tween.tween_callback(func() -> void: attack_ready = true)
+	tween.tween_callback(func() -> void: ready_to_act = true)
 
 
-func tween_action(tween: Tween, weapon_rotation: int, weapon_orientation: int, weapon_offset_pos: int, weapon_transition : int, weapon_ease : int) -> void:
+func tween_action(weapon_rotation: int, weapon_orientation: int, weapon_offset_pos: int, weapon_transition : int, weapon_ease : int) -> void:
 	tween.tween_property(weapon_pivot, "rotation_degrees", weapon_rotation, weapon.melee_weight).set_trans(weapon_transition).set_ease(weapon_ease)
 	tween.parallel().tween_property(weapon_offset, "rotation_degrees", weapon_orientation, weapon.melee_weight).set_trans(weapon_transition).set_ease(weapon_ease)
 	tween.parallel().tween_property(weapon_offset, "position", Vector2(weapon_offset_pos, 0), weapon.melee_weight).set_trans(weapon_transition).set_ease(weapon_ease)
 
 
 func drop_weapon() -> void:
-	print(weapon.weapon_origin)
 	if not weapon:
 		return
 	
-	if not attack_ready:
+	if not ready_to_act:
 		return
 	
 	if not weapon.can_drop:
@@ -52,7 +82,7 @@ func drop_weapon() -> void:
 		return
 	
 	print("Dropped weapon")
-	weapon.reparent(weapon.weapon_origin, false)
+	weapon.weapon_holder = null
 	weapon = null
 
 
@@ -61,7 +91,7 @@ func pick_weapon() -> void:
 		print("Already has weapon")
 		return
 	
-	if not attack_ready:
+	if not ready_to_act:
 		return
 	
 	var overlapping_areas : Array[Area2D] = weapon_pickup_area.get_overlapping_areas()
@@ -72,9 +102,17 @@ func pick_weapon() -> void:
 	overlapping_areas.sort_custom(get_closest_weapon_sort)
 	
 	print("Picked weapon")
-	var new_weapon : WeaponClass = overlapping_areas[0]
-	weapon = new_weapon
-	new_weapon.reparent(weapon_offset)
+	var picked_weapon : WeaponClass = overlapping_areas[0]
+	
+	weapon_instance.position = picked_weapon.primary_hand_pos.position
+	weapon_instance.rotation = picked_weapon.primary_hand_pos.rotation
+	
+	picked_weapon.weapon_holder = self
+	weapon = picked_weapon
+	
+	tween = create_tween()
+	tween_action(weapon.idle_rotation, weapon.idle_orientation, weapon.idle_offset, weapon.idle_transition, weapon.idle_ease)
+	
 
 
 func get_closest_weapon_sort(a: Area2D, b: Area2D) -> bool:

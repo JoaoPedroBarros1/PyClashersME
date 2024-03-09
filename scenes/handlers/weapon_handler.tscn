@@ -1,6 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://dlmhxx37wu3ho"]
+[gd_scene load_steps=4 format=3 uid="uid://dlmhxx37wu3ho"]
 
 [ext_resource type="Script" path="res://scripts/handlers/weapon_handler.gd" id="1_ly0bn"]
+[ext_resource type="Texture2D" uid="uid://c2708pjs4nlcp" path="res://assets/img/characters/hand/red_hand.png" id="2_mn6ev"]
+[ext_resource type="Texture2D" uid="uid://cremrsyyeqr1r" path="res://assets/img/characters/hand/purple_hand.png" id="3_cieyh"]
 
 [node name="WeaponHandler" type="Node2D"]
 script = ExtResource("1_ly0bn")
+
+[node name="WeaponPivot" type="Node2D" parent="."]
+rotation = 0.349066
+
+[node name="WeaponOffset" type="Node2D" parent="WeaponPivot"]
+position = Vector2(30, 0)
+
+[node name="RightHandSprite" type="Sprite2D" parent="WeaponPivot/WeaponOffset"]
+texture = ExtResource("2_mn6ev")
+
+[node name="WeaponInstance" type="Node2D" parent="WeaponPivot/WeaponOffset"]
+
+[node name="LeftHandSprite" type="Sprite2D" parent="."]
+rotation = -0.436332
+texture = ExtResource("3_cieyh")
+offset = Vector2(30, 0)

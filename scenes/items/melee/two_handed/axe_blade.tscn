@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://160qhm44gtlq"]
+
+[ext_resource type="PackedScene" uid="uid://byp1lfk1oh11p" path="res://scenes/items/weapon_class.tscn" id="1_hudev"]
+[ext_resource type="Texture2D" uid="uid://c1i7yb1cogjf8" path="res://assets/img/items/melee/two_handed/weapon_axe_blades.png" id="2_kj1qc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vxxt2"]
+size = Vector2(40, 33)
+
+[node name="AxeBlade" instance=ExtResource("1_hudev")]
+double_blade = true
+pre_attack_orientation = 10
+attack_rotation = -100
+attack_orientation = -110
+attack_transition = 5
+melee_damage = 35
+melee_weight = 0.4
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_kj1qc")
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(0, -13.5)
+shape = SubResource("RectangleShape2D_vxxt2")
+
+[node name="PrimaryHandPos" parent="." index="4"]
+position = Vector2(0, 18)
+rotation = 3.14159

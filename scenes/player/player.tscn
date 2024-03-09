@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bvvdup0h1ve1x"]
+[gd_scene load_steps=14 format=3 uid="uid://bvvdup0h1ve1x"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_mu3k7"]
 [ext_resource type="Script" path="res://scripts/player/PlayerInputSync.gd" id="2_8tprx"]
@@ -7,10 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://cpn7k4c4xrttr" path="res://scenes/components/hitbox_component.tscn" id="3_wn4aj"]
 [ext_resource type="PackedScene" uid="uid://dlmhxx37wu3ho" path="res://scenes/handlers/weapon_handler.tscn" id="6_etfka"]
 [ext_resource type="Texture2D" uid="uid://bucdkpjd3xsqv" path="res://assets/img/characters/body/green_body.png" id="6_ii706"]
-[ext_resource type="Texture2D" uid="uid://dfdtm84ecv864" path="res://assets/img/characters/hand/yellow_hand.png" id="8_b8trw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ft1mi"]
-radius = 30.0
+radius = 26.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_h27al"]
 properties/0/path = NodePath(".:position")
@@ -37,20 +36,26 @@ properties/6/replication_mode = 2
 properties/7/path = NodePath("Sprites/WeaponHandler/WeaponPivot/WeaponOffset:position")
 properties/7/spawn = true
 properties/7/replication_mode = 2
+properties/8/path = NodePath("HealthBar:value")
+properties/8/spawn = true
+properties/8/replication_mode = 2
+properties/9/path = NodePath(".:modulate")
+properties/9/spawn = true
+properties/9/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gx3ml"]
 properties/0/path = NodePath(".:direction")
-properties/0/spawn = false
+properties/0/spawn = true
 properties/0/replication_mode = 2
 properties/1/path = NodePath(".:mouse_pos")
-properties/1/spawn = false
+properties/1/spawn = true
 properties/1/replication_mode = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_so3xg"]
 radius = 21.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nysvx"]
-radius = 41.0
+radius = 50.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2b61q"]
 bg_color = Color(0, 0.721569, 0.317647, 1)
@@ -69,12 +74,11 @@ shape = SubResource("CircleShape2D_ft1mi")
 [node name="ServerSync" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_h27al")
 
-[node name="PlayerInputSync" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("player", "weapon_handler")]
+[node name="PlayerInputSync" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("player")]
 root_path = NodePath(".")
 replication_config = SubResource("SceneReplicationConfig_gx3ml")
 script = ExtResource("2_8tprx")
 player = NodePath("..")
-weapon_handler = NodePath("../Sprites/WeaponHandler")
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_wn4aj")]
 health_component = NodePath("../HealthComponent")
@@ -90,7 +94,8 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponPickupArea"]
 shape = SubResource("CircleShape2D_nysvx")
 
-[node name="HealthComponent" parent="." instance=ExtResource("3_1tx51")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("WEAPON_HANDLER") instance=ExtResource("3_1tx51")]
+WEAPON_HANDLER = NodePath("../Sprites/WeaponHandler")
 
 [node name="HealthBar" type="ProgressBar" parent="." node_paths=PackedStringArray("health_component")]
 anchors_preset = 5
@@ -114,20 +119,6 @@ health_component = NodePath("../HealthComponent")
 player = NodePath("../..")
 input = NodePath("../../PlayerInputSync")
 weapon_pickup_area = NodePath("../../WeaponPickupArea")
-
-[node name="WeaponPivot" type="Node2D" parent="Sprites/WeaponHandler"]
-rotation = 0.349066
-
-[node name="WeaponOffset" type="Node2D" parent="Sprites/WeaponHandler/WeaponPivot"]
-position = Vector2(30, 0)
-
-[node name="RightHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler/WeaponPivot/WeaponOffset"]
-texture = ExtResource("8_b8trw")
-
-[node name="LeftHandSprite" type="Sprite2D" parent="Sprites/WeaponHandler"]
-rotation = -0.523599
-texture = ExtResource("8_b8trw")
-offset = Vector2(30, 0)
 
 [node name="BodySprite" type="Sprite2D" parent="Sprites"]
 texture = ExtResource("6_ii706")

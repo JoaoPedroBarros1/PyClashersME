@@ -7,6 +7,8 @@ extends Control
 
 
 func _ready() -> void:
+	multiplayer.multiplayer_peer.set_refuse_new_connections(false)
+	
 	if multiplayer.is_server():
 		var start_button := Button.new()
 		start_button.text = "Começar jogo"
@@ -17,6 +19,9 @@ func _ready() -> void:
 		MultiplayerHandler.player_connected.connect(add_player)
 		MultiplayerHandler.player_disconnected.connect(del_player)
 		add_player(1)
+		
+		for player in multiplayer.get_peers():
+			add_player(player)
 	
 	else:
 		var client_label := Label.new()
@@ -39,9 +44,9 @@ func del_player(id: int) -> void:
 
 func _start_game() -> void:
 	multiplayer.multiplayer_peer.set_refuse_new_connections(true)
-	# multiplayer.multiplayer_peer.refuse_new_connections = true
 	
-	MultiplayerHandler.load_game.rpc("handlers/game_handler.tscn")
+	# MultiplayerHandler.load_game.rpc("handlers/game_handler.tscn")
+	MultiplayerHandler.load_game.call_deferred(preload("res://scenes/handlers/game_handler.tscn"))
 
 
 func _on_back_button_pressed() -> void:

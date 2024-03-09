@@ -1,6 +1,6 @@
 extends Node
 
-
+const weapon_frequency := 3.0
 const player_positions := [Vector2(17, 17), Vector2(17, 43), Vector2(53, 17), Vector2(53, 43)]
 const map_start := Vector2(18, 18)
 const map_end := Vector2(51, 41)
@@ -20,13 +20,26 @@ func _ready() -> void:
 	$PlayerSpawner.spawned.connect(update_player_camera)
 
 	if not multiplayer.is_server():
+		set_process_input(false)
 		return
+	
+	# MultiplayerHandler.player_loaded.rpc()
+	print("Host server started")
+	start_game()
 
-	for x in roundi((map_end.x - map_start.x) * 0.25):
-		for y in roundi((map_end.y - map_start.y) * 0.25):
+
+func start_game() -> void:
+	for x in floori((map_end.x - map_start.x) / weapon_frequency) + 1:
+		for y in floori((map_end.y - map_start.y) / weapon_frequency) + 1:
 			var weapon_scene : PackedScene = weapons_list.pick_random()
 			var loaded_weapon : WeaponClass = weapon_scene.instantiate()
-			loaded_weapon.position = (Vector2(x, y) * 4 + map_start) * 64
+			
+			var weapon_rotation : float = randi_range(0, 360)
+			var weapon_offset : Vector2 = Vector2(randi_range(32, 64), 0).rotated(weapon_rotation)
+			var weapon_position : Vector2 = (Vector2(x, y) * weapon_frequency + map_start) * 64 + Vector2(32, 32) + weapon_offset
+			
+			loaded_weapon.global_position = weapon_position
+			loaded_weapon.global_rotation = weapon_rotation
 			weapons.add_child(loaded_weapon, true)
 	
 	multiplayer.peer_disconnected.connect(del_player)
@@ -36,13 +49,8 @@ func _ready() -> void:
 		var peer := multiplayer_peers[peer_index]
 		add_player(peer, peer_index + 1)
 	
-	# Local (É o host)
 	add_player(1, 0)
 	camera_handler.target = players.get_node("1")
-
-
-func start_game() -> void:
-	pass
 
 
 func add_player(id: int, index: int) -> void:
@@ -57,9 +65,17 @@ func add_player(id: int, index: int) -> void:
 
 func del_player(id: int) -> void:
 	if players.has_node(str(id)):
-		players.get_node(str(id)).queue_free()
+		var player_node : Player = players.get_node(str(id))
+		player_node.weapon_handler.weapon.weapon_holder = null
+		player_node.queue_free()
 
 
 func update_player_camera(player_added: CharacterBody2D) -> void:
 	if multiplayer.get_unique_id() == player_added.name.to_int():
 		camera_handler.target = player_added
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action("escape"):
+		# MultiplayerHandler.load_game.rpc("gui/multiplayer/game_lobby.tscn")
+		MultiplayerHandler.reset_game()

@@ -4,25 +4,29 @@
 [ext_resource type="Texture2D" uid="uid://b7t7athenisby" path="res://assets/img/items/melee/two_handed/weapon_hammer.png" id="2_svuwu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c78wd"]
-size = Vector2(28, 29)
+size = Vector2(38, 40)
 
 [node name="Hammer" instance=ExtResource("1_4ypfe")]
-position = Vector2(0, 3)
-rotation = 3.14159
-attack_offset = 48
-idle_offset = 33
-melee_type = 2
+double_blade = true
+pre_attack_rotation = 80
+pre_attack_orientation = -20
+attack_rotation = -100
+attack_orientation = -120
+attack_offset = 35
+attack_transition = 7
+idle_transition = 7
 melee_weight = 0.7
 
-[node name="Sprite2D" parent="." index="0"]
+[node name="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_svuwu")
 
-[node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -11.5)
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(0, -10)
 shape = SubResource("RectangleShape2D_c78wd")
 
-[node name="SecondaryHandPos" parent="." index="2"]
-position = Vector2(0, 12)
+[node name="SecondaryHandPos" parent="." index="3"]
+position = Vector2(0, 3)
 
-[node name="TrailPosition" parent="." index="3"]
-position = Vector2(4.05629e-05, -16)
+[node name="PrimaryHandPos" parent="." index="4"]
+position = Vector2(0, 14)
+rotation = 3.14159

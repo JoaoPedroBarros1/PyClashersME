@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2m7v18hxjhv0"]
+
+[ext_resource type="PackedScene" uid="uid://byp1lfk1oh11p" path="res://scenes/items/weapon_class.tscn" id="1_nyahe"]
+[ext_resource type="Texture2D" uid="uid://bn258p274bago" path="res://assets/img/items/melee/one_handed/weapon_sword.png" id="2_wfv1t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1dxf2"]
+size = Vector2(18, 37)
+
+[node name="Sword" instance=ExtResource("1_nyahe")]
+melee_damage = 25
+melee_weight = 0.3
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_wfv1t")
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_1dxf2")
+
+[node name="PrimaryHandPos" parent="." index="4"]
+position = Vector2(0, 14)
+rotation = 3.14159

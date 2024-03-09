@@ -1,17 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://byp1lfk1oh11p"]
+[gd_scene load_steps=3 format=3 uid="uid://byp1lfk1oh11p"]
 
 [ext_resource type="Script" path="res://scripts/items/weapon_class.gd" id="1_m570f"]
-[ext_resource type="Script" path="res://addons/trail_2d/trail_2d.gd" id="2_vhw4q"]
 
-[sub_resource type="Curve" id="Curve_blil7"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.113861, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vr1pw"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [node name="WeaponClass" type="Area2D"]
 show_behind_parent = true
 collision_layer = 2
 monitoring = false
 script = ExtResource("1_m570f")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_vr1pw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
@@ -20,12 +26,7 @@ script = ExtResource("1_m570f")
 [node name="SecondaryHandPos" type="Marker2D" parent="."]
 gizmo_extents = 5.0
 
-[node name="TrailPosition" type="Marker2D" parent="."]
-
-[node name="Trail2D" type="Line2D" parent="TrailPosition" node_paths=PackedStringArray("weapon")]
-width_curve = SubResource("Curve_blil7")
-default_color = Color(0, 1, 0, 1)
-script = ExtResource("2_vhw4q")
-weapon = NodePath("../..")
+[node name="PrimaryHandPos" type="Marker2D" parent="."]
+gizmo_extents = 5.0
 
 [connection signal="area_entered" from="." to="." method="_on_hitbox_area_entered"]

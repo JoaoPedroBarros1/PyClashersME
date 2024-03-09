@@ -1,9 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://bscg5i1koip37"]
+[gd_scene load_steps=17 format=3 uid="uid://bscg5i1koip37"]
 
 [ext_resource type="Script" path="res://scripts/handlers/game_handler.gd" id="1_x8eom"]
 [ext_resource type="Texture2D" uid="uid://beakj7vcvub0w" path="res://assets/img/map/tilesheet.png" id="2_avkit"]
 [ext_resource type="PackedScene" uid="uid://jdq4mrjqiyvc" path="res://scenes/items/melee/one_handed/dagger.tscn" id="2_eu462"]
 [ext_resource type="Script" path="res://scripts/handlers/camera_handler.gd" id="2_ja5hw"]
+[ext_resource type="PackedScene" uid="uid://b2m7v18hxjhv0" path="res://scenes/items/melee/one_handed/sword.tscn" id="3_17sj1"]
+[ext_resource type="PackedScene" uid="uid://cxm2hv6q0t8j8" path="res://scenes/items/melee/two_handed/hammer.tscn" id="3_l4sq8"]
+[ext_resource type="PackedScene" uid="uid://cqenmjas2nmym" path="res://scenes/items/melee/two_handed/axe.tscn" id="4_p73c6"]
+[ext_resource type="PackedScene" uid="uid://160qhm44gtlq" path="res://scenes/items/melee/two_handed/axe_blade.tscn" id="5_k1nb2"]
+[ext_resource type="PackedScene" uid="uid://mur3xo3120wc" path="res://scenes/items/melee/two_handed/axe_double.tscn" id="6_406cg"]
+[ext_resource type="PackedScene" uid="uid://cbadseafnciv2" path="res://scenes/items/melee/two_handed/axe_large.tscn" id="7_hp8m3"]
+[ext_resource type="PackedScene" uid="uid://cj2ty0s7gim0c" path="res://scenes/items/melee/two_handed/longsword.tscn" id="9_e2f2s"]
+[ext_resource type="PackedScene" uid="uid://cgnlolmne0kel" path="res://scenes/items/melee/two_handed/pole.tscn" id="10_du6np"]
+[ext_resource type="PackedScene" uid="uid://bg8k7aqsmeslu" path="res://scenes/items/melee/two_handed/spear.tscn" id="11_xyfju"]
+[ext_resource type="PackedScene" uid="uid://dfl14s7d4fkq6" path="res://scenes/items/melee/two_handed/staff.tscn" id="12_5yom7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g24re"]
 texture = ExtResource("2_avkit")
@@ -427,7 +437,7 @@ sources/3 = SubResource("TileSetAtlasSource_g24re")
 [node name="GameHandler" type="Node" node_paths=PackedStringArray("camera_handler")]
 script = ExtResource("1_x8eom")
 camera_handler = NodePath("CameraHandler")
-weapons_list = Array[PackedScene]([ExtResource("2_eu462")])
+weapons_list = Array[PackedScene]([ExtResource("2_eu462"), ExtResource("3_17sj1"), ExtResource("4_p73c6"), ExtResource("5_k1nb2"), ExtResource("6_406cg"), ExtResource("7_hp8m3"), ExtResource("3_l4sq8"), ExtResource("9_e2f2s"), ExtResource("10_du6np"), ExtResource("11_xyfju"), ExtResource("12_5yom7")])
 
 [node name="CameraHandler" type="Camera2D" parent="."]
 script = ExtResource("2_ja5hw")

@@ -21,9 +21,17 @@ func damage(attack: Attack) -> void:
 	health -= attack.attack_damage
 	
 	if health <= 0:
+		health = 0
 		died.emit(attack.attack_damage)
-		#if WEAPON_HANDLER.weapon:
-			#WEAPON_HANDLER.drop_weapon()
-		return
+		player.is_alive = false
+		
+		if WEAPON_HANDLER.tween:
+			WEAPON_HANDLER.tween.kill()
+		
+		WEAPON_HANDLER.drop_weapon()
+		
+		var tween : Tween = create_tween()
+		
+		tween.tween_property(player, "modulate:a", 0.5, 1)
 	
 	hurt.emit(attack.attack_damage)

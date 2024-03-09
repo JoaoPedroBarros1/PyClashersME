@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://bg8k7aqsmeslu"]
+
+[ext_resource type="PackedScene" uid="uid://byp1lfk1oh11p" path="res://scenes/items/weapon_class.tscn" id="1_kgr8m"]
+[ext_resource type="Texture2D" uid="uid://bjwhlt50cmfci" path="res://assets/img/items/melee/two_handed/weapon_spear.png" id="2_utq6u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oe1vd"]
+size = Vector2(18, 45)
+
+[node name="Spear" instance=ExtResource("1_kgr8m")]
+pre_attack_rotation = 90
+pre_attack_orientation = -190
+pre_attack_transition = 3
+attack_rotation = 25
+attack_orientation = -130
+attack_offset = 45
+attack_transition = 3
+idle_rotation = 75
+idle_orientation = -180
+idle_transition = 3
+melee_weight = 0.6
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_utq6u")
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(0, -10.5)
+shape = SubResource("RectangleShape2D_oe1vd")
+
+[node name="PrimaryHandPos" parent="." index="4"]
+position = Vector2(0, 20)
+rotation = 3.14159

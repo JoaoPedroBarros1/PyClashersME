@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgnlolmne0kel"]
+
+[ext_resource type="PackedScene" uid="uid://byp1lfk1oh11p" path="res://scenes/items/weapon_class.tscn" id="1_h7k07"]
+[ext_resource type="Texture2D" uid="uid://nv670rrmi4l6" path="res://assets/img/items/melee/two_handed/weapon_pole.png" id="2_w24y3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c8upf"]
+size = Vector2(14, 45)
+
+[node name="Pole" instance=ExtResource("1_h7k07")]
+pre_attack_rotation = 90
+pre_attack_orientation = -190
+attack_rotation = 25
+attack_orientation = -130
+attack_offset = 45
+attack_transition = 5
+idle_rotation = 75
+idle_orientation = -180
+idle_transition = 5
+melee_damage = 45
+melee_weight = 0.55
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_w24y3")
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(0, -10.5)
+shape = SubResource("RectangleShape2D_c8upf")
+
+[node name="PrimaryHandPos" parent="." index="4"]
+position = Vector2(0, 18)
+rotation = 3.14159

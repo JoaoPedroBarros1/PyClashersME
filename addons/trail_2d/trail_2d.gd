@@ -11,8 +11,9 @@ func _ready() -> void:
 	offset = position
 	top_level = true
 
-func _physics_process(_delta: float) -> void:
-	if weapon.is_weapon_dropped:
+func _physics_process(_delta: float) -> void:	
+	if not weapon.weapon_holder:
+		clear_points()
 		return
 	
 	global_position = Vector2.ZERO

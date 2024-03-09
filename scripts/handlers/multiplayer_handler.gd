@@ -101,16 +101,32 @@ func _register_player(new_player_info: Dictionary) -> void:
 	player_connected.emit(new_player_id)
 
 
-@rpc("call_local", "reliable")
-func load_game(game_scene_path: NodePath) -> void:
-	SceneTransition.change_root_scene(game_scene_path)
+#@rpc("call_local", "reliable")
+#func load_game(game_scene_path: NodePath) -> void:
+	#SceneTransition.change_root_scene(game_scene_path)
 
 
 # Every peer will call this when they have loaded the game scene.
-@rpc("any_peer", "call_local", "reliable")
-func player_loaded() -> void:
-	if multiplayer.is_server():
-		players_loaded += 1
-		if players_loaded == players.size():
-			$/root/GameHandler.start_game()
-			players_loaded = 0
+#@rpc("any_peer", "call_local", "reliable")
+#func player_loaded() -> void:
+	#if multiplayer.is_server():
+		#players_loaded += 1
+		#if players_loaded == players.size():
+			#$/root/GameHandler.start_game()
+			#players_loaded = 0
+
+
+func load_game(scene: PackedScene) -> void:
+	var level : MultiplayerSpawner = $Level
+	for c in level.get_children():
+		level.remove_child(c)
+		c.queue_free()
+	
+	level.add_child(scene.instantiate())
+
+
+func reset_game() -> void:
+	var level : MultiplayerSpawner = $Level
+	for c in level.get_children():
+		level.remove_child(c)
+		c.queue_free()

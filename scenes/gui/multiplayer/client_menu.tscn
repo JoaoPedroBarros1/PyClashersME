@@ -32,7 +32,6 @@ max_length = 10
 
 [node name="IPInput" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
-text = "localhost"
 placeholder_text = "IP"
 max_length = 13
 
