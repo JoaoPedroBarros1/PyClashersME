@@ -7,7 +7,7 @@ extends Control
 
 func _on_host_button_pressed() -> void:
 	MultiplayerHandler.local_player_info["name"] = nome_input.text
-	MultiplayerHandler.host_server()
+	MultiplayerHandler.host_server(port_input.text)
 
 
 func _on_back_button_pressed() -> void:

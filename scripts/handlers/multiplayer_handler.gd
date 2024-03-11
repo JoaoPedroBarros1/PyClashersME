@@ -6,7 +6,6 @@ signal player_disconnected(peer_id: int)
 signal server_disconnected
 
 
-const PORT = 7000
 const DEFAULT_SERVER_IP = "127.0.0.1"
 const MAX_CONNECTIONS = 3
 
@@ -24,12 +23,12 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 
-func join_server(address := "") -> void:
-	if address.is_empty():
-		address = DEFAULT_SERVER_IP
+func join_server(ip : String, port : String) -> void:
+	if ip.is_empty():
+		ip = DEFAULT_SERVER_IP
 		
 	var peer := ENetMultiplayerPeer.new()
-	var error := peer.create_client(address, PORT)
+	var error := peer.create_client(ip, port.to_int())
 	
 	if error:
 		printerr(error)
@@ -41,10 +40,10 @@ func join_server(address := "") -> void:
 	SceneTransition.change_root_scene("gui/multiplayer/game_lobby.tscn")
 
 
-func host_server() -> void:
+func host_server(port: String) -> void:
 	print("Hosting")
 	var peer := ENetMultiplayerPeer.new()
-	var error := peer.create_server(PORT, MAX_CONNECTIONS)
+	var error := peer.create_server(port.to_int(), MAX_CONNECTIONS)
 	
 	if error:
 		printerr(error)
@@ -117,16 +116,16 @@ func _register_player(new_player_info: Dictionary) -> void:
 
 
 func load_game(scene: PackedScene) -> void:
-	var level : MultiplayerSpawner = $Level
-	for c in level.get_children():
-		level.remove_child(c)
+	var world : Node = $World
+	for c in world.get_children():
+		# world.remove_child(c)
 		c.queue_free()
 	
-	level.add_child(scene.instantiate())
+	world.add_child(scene.instantiate())
 
 
 func reset_game() -> void:
-	var level : MultiplayerSpawner = $Level
-	for c in level.get_children():
-		level.remove_child(c)
+	var world : Node = $World
+	for c in world.get_children():
+		# world.remove_child(c)
 		c.queue_free()

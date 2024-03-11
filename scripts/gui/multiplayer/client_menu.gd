@@ -8,7 +8,7 @@ extends Control
 
 func _on_join_button_pressed() -> void:
 	MultiplayerHandler.local_player_info["name"] = nome_input.text
-	MultiplayerHandler.join_server()
+	MultiplayerHandler.join_server(ip_input.text, port_input.text)
 
 
 func _on_back_button_pressed() -> void:

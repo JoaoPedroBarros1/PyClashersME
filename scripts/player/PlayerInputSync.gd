@@ -4,7 +4,6 @@ class_name PlayerInput
 
 enum PLAYER_ACTIONS {IDLE, ATTACK, DROP, PICKUP}
 @export var player : CharacterBody2D
-@export var weapon_handler : WeaponHandler
 
 var direction := Vector2.ZERO
 var mouse_pos := Vector2.ZERO
